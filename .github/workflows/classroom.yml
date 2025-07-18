@@ -1,0 +1,98 @@
+name: Autograding Tests
+on:
+  - push
+  - workflow_dispatch
+  - repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  autograding:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Permisos de script
+      run: chmod +x tests.sh
+
+    - name: Ejercicio1
+      uses: classroom-resources/autograding-command-grader@v1
+      id: ej1
+      with:
+        test-name: Ejercicio 1
+        command: "./tests.sh 1"
+        max-score: 1
+
+    - name: Ejercicio2
+      uses: classroom-resources/autograding-command-grader@v1
+      id: ej2
+      with:
+        test-name: Ejercicio 2
+        command: "./tests.sh 2"
+        max-score: 1
+
+    - name: Ejercicio3
+      uses: classroom-resources/autograding-command-grader@v1
+      id: ej3
+      with:
+        test-name: Ejercicio 3
+        command: "./tests.sh 3"
+        max-score: 1
+  
+    - name: Ejercicio4
+      uses: classroom-resources/autograding-command-grader@v1
+      id: ej4
+      with:
+        test-name: Ejercicio 4
+        command: "./tests.sh 4"
+        max-score: 1
+
+    - name: Ejercicio7
+      uses: classroom-resources/autograding-command-grader@v1
+      id: ej7
+      with:
+        test-name: Ejercicio 7
+        command: "./tests.sh 7"
+        max-score: 1
+
+    - name: Ejercicio8
+      uses: classroom-resources/autograding-command-grader@v1
+      id: ej8
+      with:
+        test-name: Ejercicio 8
+        command: "./tests.sh 8"
+        max-score: 1
+
+    - name: Ejercicio9
+      uses: classroom-resources/autograding-command-grader@v1
+      id: ej9
+      with:
+        test-name: Ejercicio 9
+        command: "./tests.sh 9"
+        max-score: 1
+
+    - name: Ejercicio10
+      uses: classroom-resources/autograding-command-grader@v1
+      id: ej10
+      with:
+        test-name: Ejercicio 10
+        command: "./tests.sh 10"
+        max-score: 1
+
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        EJ1_RESULTS: "${{steps.ej1.outputs.result}}"
+        EJ2_RESULTS: "${{steps.ej2.outputs.result}}"
+        EJ3_RESULTS: "${{steps.ej3.outputs.result}}"
+        EJ4_RESULTS: "${{steps.ej4.outputs.result}}"
+        EJ7_RESULTS: "${{steps.ej7.outputs.result}}"
+        EJ8_RESULTS: "${{steps.ej8.outputs.result}}"
+        EJ9_RESULTS: "${{steps.ej9.outputs.result}}"
+        EJ10_RESULTS: "${{steps.ej10.outputs.result}}"
+      with:
+        runners: ej1,ej2,ej3,ej4,ej7,ej8,ej9,ej10
